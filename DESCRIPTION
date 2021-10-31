@@ -1,0 +1,17 @@
+Package: notail
+Title: Tail-call Optimization On The Byte-Code Level
+Version: 0.0.0.9000
+Authors@R: 
+    person("Dirk", "Schumacher", , "mail@dirk-schumacher.net", role = c("aut", "cre"))
+Description: What the package does? It eliminates tail calls ... sometimes.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports:
+    rcompilertools
+Remotes:
+    dirkschumacher/rcompilertools
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
