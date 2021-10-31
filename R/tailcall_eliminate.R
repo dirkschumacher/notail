@@ -44,7 +44,12 @@ tailcall_eliminate <- function(fun) {
   # not very readable, but it really is just experimental software :)
   new_const_pool[[length(new_const_pool) + 1]] <- as.name("<-")
   const_pool_size <- length(new_const_pool)
-  new_ops <- do.call(`c`, lapply(seq(0, length(fun_args), 2), function(i) {
+  arg_seq <- if (length(fun_args) == 0) {
+    integer()
+  } else {
+    seq(0, length(fun_args), 2)
+  }
+  new_ops <- do.call(`c`, lapply(arg_seq, function(i) {
     # the position of the name of the function argument in the constant pool
     name_position <- old_const_pool_size + i + 1
 
@@ -57,10 +62,11 @@ tailcall_eliminate <- function(fun) {
       .(new_const_pool[[name_position + 1]]),
       .(compiled_body$constant_pool[[arg_prom_pos + 1]][[3]][[1]])
     ))
-    c(23L, const_pool_size - 1, # GETFUN.OP
+    c(
+      23L, const_pool_size - 1, # GETFUN.OP
       29L, name_position - 1, # MAKEPROM.OP
       29L, arg_prom_pos, # MAKEPROM.OP
-      38L, name_position, #CALL.OP
+      38L, name_position, # CALL.OP
       4L # POP.OP
     )
   }))
